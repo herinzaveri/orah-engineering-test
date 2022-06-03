@@ -1,5 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, Column } from "typeorm"
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn } from "typeorm"
 import { CreateStudentRollStateInput, UpdateStudentRollStateInput } from "../interface/student-roll-state.interface"
+import { Roll } from "./roll.entity"
 
 @Entity()
 export class StudentRollState {
@@ -14,6 +15,10 @@ export class StudentRollState {
 
   @Column()
   state: string
+
+  @ManyToOne(() => Roll, (role) => role.studentRollStates)
+  @JoinColumn({ name: "roll_id" })
+  roll: Roll
 
   public prepareToCreate(input: CreateStudentRollStateInput) {
     this.state = input.state
